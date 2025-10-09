@@ -1,6 +1,12 @@
-export * from "./core/index";
-export * from "./storage/index";
-export * from "./fhevmTypes";
-export * from "./FhevmDecryptionSignature";
-export * from "./react/index";
+// Core
+export { FhevmSDK } from './core/FhevmSDK';
+export type { FhevmConfig, EncryptedValue } from './core/FhevmSDK';
 
+// React Context & Provider
+export { FhevmProvider, FhevmContext } from './context/FhevmContext';
+export type { FhevmContextValue, FhevmProviderProps } from './context/FhevmContext';
+
+// React Hooks
+export { useFhevmInit } from './hooks/useFhevmInit';
+export { useFhevmEncrypt } from './hooks/useFhevmEncrypt';
+export { useFhevmDecrypt } from './hooks/useFhevmDecrypt';
