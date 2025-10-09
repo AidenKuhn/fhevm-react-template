@@ -1,79 +1,95 @@
 {
-  "name": "root",
-  "version": "0.4.0",
+  "name": "fhevm-sdk-monorepo",
+  "version": "1.0.0",
+  "description": "Universal FHEVM SDK for building confidential dApps - Zama Bounty Submission",
   "private": true,
-  "license": "BSD-3-Clause-Clear",
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "main": "index.js",
   "scripts": {
-    "chain": "pnpm hardhat:chain",
-    "compile": "pnpm hardhat:compile",
-    "deploy:localhost": "pnpm hardhat:deploy && pnpm generate",
-    "deploy:sepolia": "pnpm hardhat:deploy:sepolia && pnpm generate",
-    "fork": "pnpm hardhat:fork",
-    "format": "pnpm next:format && pnpm hardhat:format",
-    "sdk:build": "pnpm --filter ./packages/fhevm-sdk build",
-    "sdk:watch": "pnpm --filter ./packages/fhevm-sdk watch",
-    "sdk:test": "pnpm --filter ./packages/fhevm-sdk test",
-    "sdk:test:watch": "pnpm --filter ./packages/fhevm-sdk test:watch",
-    "sdk:clean": "pnpm --filter ./packages/fhevm-sdk clean",
-    "generate": "ts-node ./scripts/generateTsAbis.ts",
-    "hardhat:chain": "pnpm --filter ./packages/hardhat chain",
-    "hardhat:check-types": "pnpm --filter ./packages/hardhat check-types",
-    "hardhat:clean": "pnpm --filter ./packages/hardhat clean",
-    "hardhat:compile": "pnpm --filter ./packages/hardhat compile",
-    "hardhat:deploy": "pnpm --filter ./packages/hardhat deploy:localhost",
-    "hardhat:deploy:sepolia": "pnpm --filter ./packages/hardhat deploy:sepolia",
-    "hardhat:format": "pnpm --filter ./packages/hardhat prettier:write",
-    "hardhat:generate": "pnpm --filter ./packages/hardhat typechain",
-    "hardhat:hardhat-verify": "pnpm --filter ./packages/hardhat verify",
-    "hardhat:lint": "pnpm --filter ./packages/hardhat lint",
-    "hardhat:lint-staged": "pnpm --filter ./packages/hardhat lint",
-    "hardhat:test": "pnpm --filter ./packages/hardhat test",
-    "hardhat:verify": "pnpm --filter ./packages/hardhat verify",
-    "hardhat:verify:sepolia": "pnpm --filter ./packages/hardhat verify:sepolia",
-    "lint": "pnpm next:lint && pnpm hardhat:lint",
-    "next:build": "pnpm --filter ./packages/nextjs build",
-    "next:check-types": "pnpm --filter ./packages/nextjs check-types",
-    "next:format": "pnpm --filter ./packages/nextjs format",
-    "next:lint": "pnpm --filter ./packages/nextjs lint",
-    "next:serve": "pnpm --filter ./packages/nextjs serve",
-    "precommit": "lint-staged",
-    "preinstall": "pnpm sdk:build",
-    "start": "pnpm --filter ./packages/nextjs dev",
-    "test": "pnpm hardhat:test",
-    "vercel": "pnpm --filter ./packages/nextjs vercel",
-    "vercel:login": "pnpm --filter ./packages/nextjs vercel:login",
-    "vercel:yolo": "pnpm --filter ./packages/nextjs vercel:yolo",
-    "verify": "pnpm hardhat:verify",
-    "verify:sepolia": "pnpm hardhat:verify:sepolia"
+    "install:all": "npm install --workspaces",
+    "build:sdk": "cd packages/fhevm-sdk && npm run build",
+    "dev:nextjs": "cd examples/nextjs && npm run dev",
+    "dev:privacy-waste": "cd examples/privacy-waste-rewards && npm run dev",
+    "compile": "hardhat compile",
+    "test": "hardhat test test/PrivacyWasteRewards.test.js",
+    "test:sepolia": "hardhat test test/PrivacyWasteRewards.sepolia.test.js --network sepolia",
+    "test:all": "hardhat test",
+    "test:coverage": "hardhat coverage",
+    "test:gas": "REPORT_GAS=true hardhat test",
+    "deploy": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "verify": "hardhat run scripts/verify.js --network sepolia",
+    "interact": "hardhat run scripts/interact.js --network sepolia",
+    "simulate": "hardhat run scripts/simulate.js --network sepolia",
+    "node": "hardhat node",
+    "clean": "hardhat clean",
+    "lint": "npm run lint:sol && npm run lint:js",
+    "lint:sol": "solhint 'contracts/**/*.sol'",
+    "lint:js": "eslint '**/*.{js,ts}'",
+    "lint:fix": "npm run lint:sol:fix && npm run lint:js:fix",
+    "lint:sol:fix": "solhint 'contracts/**/*.sol' --fix",
+    "lint:js:fix": "eslint '**/*.{js,ts}' --fix",
+    "format": "prettier --write '**/*.{js,ts,sol,json,md}'",
+    "format:check": "prettier --check '**/*.{js,ts,sol,json,md}'",
+    "security": "npm audit && npm run security:slither",
+    "security:slither": "slither contracts/ --checklist --markdown-root slither-report.md",
+    "security:mythril": "myth analyze contracts/PrivacyWasteRewards.sol",
+    "performance": "npm run test:gas && npm run size-check",
+    "size-check": "hardhat size-contracts",
+    "prepare": "husky install",
+    "pre-commit": "npm run lint && npm run format:check && npm run test"
+  },
+  "keywords": [
+    "blockchain",
+    "fhe",
+    "privacy",
+    "waste-management",
+    "ethereum"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-security": "^1.7.1",
+    "hardhat": "^2.19.4",
+    "hardhat-contract-sizer": "^2.10.0",
+    "hardhat-gas-reporter": "^1.0.9",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-solidity": "^1.2.0",
+    "solhint": "^4.0.0",
+    "solhint-plugin-prettier": "^0.1.0",
+    "solidity-coverage": "^0.8.5"
   },
   "dependencies": {
-    "hardhat-deploy": "^0.11.45"
+    "@fhevm/solidity": "^0.1.0",
+    "dotenv": "^16.3.1",
+    "ethers": "^6.10.0"
   },
-  "devDependencies": {
-    "@types/node": "^22.7.5",
-    "prettier": "^3.6.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "bufferutil",
-      "esbuild",
-      "keccak",
-      "protobufjs",
-      "secp256k1",
-      "sharp",
-      "unrs-resolver",
-      "utf-8-validate",
-      "yarn"
+  "lint-staged": {
+    "*.sol": [
+      "solhint --fix",
+      "prettier --write"
+    ],
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
     ]
   }
 }
+
