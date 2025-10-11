@@ -437,7 +437,6 @@ function MyComponent() {
 
 ### Quality Checks
 
-- [x] All code in English (no dapp+数字, zamadapp)
 - [x] TypeScript with types
 - [x] Clean, modular code
 - [x] Documentation complete
