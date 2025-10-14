@@ -6,7 +6,7 @@
 [![FHEVM](https://img.shields.io/badge/FHEVM-Enabled-blue)](https://docs.zama.ai/)
 [![npm](https://img.shields.io/badge/npm-fhevm--sdk-red)](https://www.npmjs.com/package/@fhevm/sdk)
 
-**[Live Demo - Next.js](https://fhevm-sdk-nextjs.vercel.app/)** | **[Live Demo - Privacy Waste Rewards](https://privacy-waste-rewards.vercel.app/)** | **[Documentation](./docs/)** | **[Video Demo](./demo.mp4)**
+**[Live Demo - Privacy Waste Rewards](https://privacy-waste-rewards.vercel.app/)** | **[Documentation](./docs/)** | **[Video Demo demo.mp4]**
 
 ---
 
@@ -487,7 +487,7 @@ npm test
 
 ## 🎬 Video Demonstration
 
-See **[demo.mp4](./demo.mp4)** for a complete walkthrough:
+See **[demo.mp4]** for a complete walkthrough:
 
 - **0:00-1:00**: SDK overview and problem statement
 - **1:00-3:00**: Installation and setup (<10 lines)
@@ -592,7 +592,7 @@ See **[demo.mp4](./demo.mp4)** for a complete walkthrough:
 - **npm Package**: [https://www.npmjs.com/package/@fhevm/sdk](https://www.npmjs.com/package/@fhevm/sdk)
 - **Documentation**: [https://fhevm-sdk-docs.vercel.app/](https://fhevm-sdk-docs.vercel.app/)
 - **Zama FHEVM**: [https://docs.zama.ai/](https://docs.zama.ai/)
-- **Video Demo**: [demo.mp4](./demo.mp4)
+- **Video Demo**: [demo.mp4]
 
 ---
 
