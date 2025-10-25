@@ -1,98 +1,60 @@
-# 🔐 FHEVM SDK - Next.js 14 Example
+# Next.js Encrypted Counter - Simple Example
 
-This example demonstrates how to use the **FHEVM SDK** in a Next.js 14 application with App Router.
+Basic Next.js 14 example demonstrating FHEVM SDK usage with the App Router.
+
+## Overview
+
+A simple encrypted counter application showcasing:
+- **FHEVM SDK Integration** - Using the universal SDK with Next.js
+- **React Hooks** - `useFhevmEncrypt` and `useFhevmDecrypt`
+- **Client Components** - Proper use of 'use client' directive
+- **TypeScript** - Full type safety
+- **Modern UI** - Clean, responsive design
 
 ## Features
 
-- ✅ **FHEVM SDK Integration** - Using `@fhevm/sdk` package
-- ✅ **React Hooks** - `useFhevmInit`, `useFhevmEncrypt`, `useFhevmDecrypt`
-- ✅ **Next.js 14 App Router** - Latest Next.js features
-- ✅ **TypeScript** - Full type safety
-- ✅ **Client Components** - Using `'use client'` directive
+- ✅ Encrypt numeric values (0-255)
+- ✅ Decrypt encrypted values with signature
+- ✅ Loading states and error handling
+- ✅ TypeScript support
+- ✅ Tailwind CSS styling
+- ✅ Next.js 14 App Router
 
 ## Quick Start
 
+### Installation
+
 ```bash
+# Navigate to example
+cd examples/nextjs
+
 # Install dependencies
 npm install
 
-# Start development server
-npm run dev
-
-# Open http://localhost:3000
+# Setup environment
+cp .env.example .env.local
+# Edit .env.local with your configuration
 ```
 
-## Code Structure
-
-### Provider Setup (`app/providers.tsx`)
-
-```typescript
-'use client';
-
-import { FhevmProvider } from '@fhevm/sdk';
-
-export function Providers({ children }) {
-  return (
-    <FhevmProvider
-      config={{
-        network: 'sepolia',
-        contractAddress: '0x...',
-        provider: window.ethereum
-      }}
-    >
-      {children}
-    </FhevmProvider>
-  );
-}
-```
-
-### Using SDK Hooks (`app/page.tsx`)
-
-```typescript
-'use client';
-
-import { useFhevmInit, useFhevmEncrypt, useFhevmDecrypt } from '@fhevm/sdk';
-
-function MyComponent() {
-  const { fhevm, isReady } = useFhevmInit();
-  const { encrypt } = useFhevmEncrypt();
-  const { userDecrypt } = useFhevmDecrypt();
-
-  const handleEncrypt = async () => {
-    const encrypted = await encrypt(42, 'uint8');
-    console.log('Encrypted:', encrypted);
-  };
-
-  const handleDecrypt = async (encrypted) => {
-    const decrypted = await userDecrypt(encrypted);
-    console.log('Decrypted:', decrypted);
-  };
-
-  return (
-    <div>
-      {isReady ? '✅ SDK Ready' : '⏳ Loading...'}
-      <button onClick={handleEncrypt}>Encrypt</button>
-    </div>
-  );
-}
-```
-
-## What This Example Shows
-
-1. **SDK Initialization** - FhevmProvider wraps the app
-2. **Encryption** - Encrypt values using `useFhevmEncrypt` hook
-3. **Decryption** - Decrypt values using `useFhevmDecrypt` hook
-4. **State Management** - SDK ready state, loading states, errors
-
-## Environment Variables
+### Environment Variables
 
 Create `.env.local`:
 
 ```env
+NEXT_PUBLIC_NETWORK=sepolia
 NEXT_PUBLIC_CONTRACT_ADDRESS=0x8EAB26B5C6E8Efe05D30b479C483802D2Ab15c14
 ```
 
-## Deployment
+### Development
+
+```bash
+# Start development server
+npm run dev
+
+# Open browser to http://localhost:3000
+```
+
+### Build
 
 ```bash
 # Build for production
@@ -102,14 +64,98 @@ npm run build
 npm start
 ```
 
-Deploy to Vercel:
+## Project Structure
+
+```
+nextjs/
+├── app/
+│   ├── layout.tsx          # Root layout with FhevmProvider
+│   ├── page.tsx            # Main counter page
+│   ├── providers.tsx       # Client-side providers wrapper
+│   └── globals.css         # Global styles with Tailwind
+├── .env.example            # Environment template
+├── next.config.js          # Next.js configuration
+├── package.json            # Dependencies
+└── tsconfig.json           # TypeScript configuration
+```
+
+## Key Concepts
+
+### Client Components
+
+Next.js 14 uses Server Components by default. When using React hooks, mark components with `'use client'`:
+
+```typescript
+'use client'; // Required for hooks
+
+import { useFhevmEncrypt } from '@fhevm/sdk';
+
+export default function MyComponent() {
+  const { encrypt } = useFhevmEncrypt(); // ✅ Works
+}
+```
+
+### FhevmProvider
+
+The provider wraps the entire application in the root layout to make the SDK available everywhere.
+
+### Environment Variables
+
+Next.js requires the `NEXT_PUBLIC_` prefix for client-side variables:
+
+```env
+# ✅ Accessible in browser
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
+
+# ❌ Not accessible in browser
+CONTRACT_ADDRESS=0x...
+```
+
+## Deployment
+
+### Deploy to Vercel
 
 ```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
 vercel
 ```
 
+### Environment Variables in Vercel
+
+1. Go to your project on Vercel
+2. Settings → Environment Variables
+3. Add:
+   - `NEXT_PUBLIC_NETWORK` = `sepolia`
+   - `NEXT_PUBLIC_CONTRACT_ADDRESS` = `0x...`
+
 ## Learn More
 
-- [FHEVM SDK Documentation](../../README.md)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Zama FHEVM](https://docs.zama.ai/)
+### Documentation
+
+- **FHEVM SDK**: [../../README.md](../../README.md)
+- **Next.js Guide**: [../../docs/nextjs.md](../../docs/nextjs.md)
+- **React Integration**: [../../docs/react.md](../../docs/react.md)
+- **Next.js Docs**: https://nextjs.org/docs
+
+### Advanced Examples
+
+- **Privacy Waste Rewards**: [../privacy-waste-rewards/](../privacy-waste-rewards/) - Complete real-world dApp
+- **React Voting**: [../react/](../react/) - Anonymous voting system
+
+## Resources
+
+- **GitHub**: https://github.com/AidenKuhn/fhevm-react-template
+- **FHEVM Docs**: https://docs.zama.ai/
+
+## License
+
+MIT License - see [../../LICENSE](../../LICENSE)
+
+---
+
+**Simple example demonstrating FHEVM SDK with Next.js 14** ⚡🔐
+
+*Perfect starting point for building privacy-preserving Next.js applications!*
